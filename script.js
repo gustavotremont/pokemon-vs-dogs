@@ -1,35 +1,49 @@
 const baseURL = 'https://pokeapi.co/api/v2/'
 
-async function getPokemon(name) {
+const getPokemon = async () => {
     try {
         let response = await fetch(`${baseURL}pokemon`);
         let data = await response.json()
-        let countResponse = await fetch(`${baseURL}pokemon?limit=${data.count}`);
-        let countData = await countResponse.json()
-        let pokemonResponse = await fetch(`${countData.results[Math.floor(Math.random() * countData.results.length)].url}`)
+
+        let pokemonResponse = await fetch(`${baseURL}pokemon/${Math.floor(Math.random() * data.count)}`)
         let pokemonData = await pokemonResponse.json()
         let pokemonFighter = {
             name: pokemonData.name,
             image: pokemonData.sprites.back_default
         }
-        let dogResponse = await fetch('https://dog.ceo/api/breeds/image/random')
-        let dogFighter = await dogResponse.json()
-        let fighters = [pokemonFighter, dogFighter]
-        return fighters;    
+        return pokemonFighter;    
     }
     catch (error) {
         console.log(`ERROR: ${error.stack}`);
     }
 }
 
-// fetch('https://pokeapi.co/api/v2/pokemon/ditto')
-//     .then(response => response.json())
-//     .then(json => console.log(json.sprites.back_default))
+const getDog = async () => {
+    try {
+        let dogResponse = await fetch('https://dog.ceo/api/breeds/image/random')
+        let dogFighter = await dogResponse.json()
+        return dogFighter;    
+    }
+    catch (error) {
+        console.log(`ERROR: ${error.stack}`);
+    }
+}
+
+const getFighters = async () => {
+    try {
+        const pokemonFighter = await getPokemon().then(data => data);
+        const dogFighter = await getDog().then(data => data);
+        const fighters = [pokemonFighter, dogFighter];
+        return fighters;
+    } catch (error) {
+        console.log(`ERROR: ${error.stack}`);
+    } 
+}
 
 document.getElementById('fight').addEventListener('click', () => {
-    getPokemon()
-        .then(data=> { 
-            document.getElementById('pokemon').innerHTML = `<p>${data[0].name}</p> <img src="${data[0].image}">`;
-            document.getElementById('dog').innerHTML = `<img src="${data[1].message}">`;
-        })
+    getFighters()
+    .then( ([pokemon, dog]) => {
+        document.getElementById('pokemon').innerHTML = `<p>${pokemon.name}</p> <img src="${pokemon.image}">`;
+        document.getElementById('dog').innerHTML = `<img src="${dog.message}">`;
+    });
 })
