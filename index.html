@@ -5,9 +5,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>plantilla</title>
+
+    <style>
+        section#body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        section#gallery {
+            display: flex;
+            justify-content: space-between;
+        }
+        div#img img {
+            height: 400px;
+            width: 150px;
+        }
+        div#pokemon img, div#dog img{
+            height: 300px;
+            width: 300px;
+        }
+        div#pokemon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        div#pokemon p{
+            font-size: 25px;
+        }
+    </style>
+
+    <script defer src="./script.js"></script>
 </head>
 <body>
-    <h1></h1>
-    <p></p>
+    <section id="body">
+        <h1>La gran batalla</h1>
+        <button id="fight">Peleen!</button>
+        <section id="gallery">
+            <div id="pokemon">
+
+            </div>
+            <div id="img">
+                <img src="https://www.onlygfx.com/wp-content/uploads/2020/07/comic-vs-versus-1.png" alt="vs">
+            </div>
+            <div id="dog">
+
+            </div>
+        </section>
+    </section>
+    
 </body>
 </html>
